@@ -1,0 +1,5 @@
+@import url("../../modules/common/visualizer/styles/table_layout.css");
+@import url("../../modules/common/visualizer/styles/item_block.css");
+@import url("../../modules/common/visualizer/styles/view_controls.css");
+
+/* visualizer_schedule 固有の追加があればここにだけ書く */

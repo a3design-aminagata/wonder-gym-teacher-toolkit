@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+
+# Node / Python deps
+node_modules/
+**/node_modules/
+.venv/
+**/.venv/
+venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Env / secrets
+.env
+.env.local
+*.pem
+*.key
+*token*.json
+*credential*.json
+client_secret.json
+
+# Runtime logs
+*.log
+logs/
+*_log.txt
+
+# Local generated data (not for sharing)
+notion-lms-agent/data/*.json
+notion-lms-agent/apps/**/data/*.js
+notion-lms-agent/apps/**/data/*.json
+notion-lms-agent/apps/**/work/*
+notion-lms-agent/apps/apply-message-maker/visualizer/data.js
+config/gmail/
+config/state/*.txt
+invoice-auto/credentials/
+invoice-auto/logs/
+
+# Local temp
+tmp_command_center_index.html

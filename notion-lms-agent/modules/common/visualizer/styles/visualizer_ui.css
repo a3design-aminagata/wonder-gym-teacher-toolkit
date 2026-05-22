@@ -1,0 +1,354 @@
+/* ============================================================
+   右下固定コントロール（ダークモード標準・プロ仕様）
+   ============================================================ */
+
+:root {
+	/* ボタン専用の変数定義 */
+	--viz-btn-bg: rgba(30, 30, 30, 0.9);
+	--viz-btn-border: #444;
+	--viz-btn-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+	--viz-btn-key-color: #8ab4ff; /* ショートカットキー文字の色 */
+}
+
+.viz-controls {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	z-index: 9999;
+	display: grid;
+	gap: 10px;
+	justify-items: end;
+}
+
+.viz-btn {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 160px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	border: 1px solid var(--viz-btn-border);
+	background: var(--viz-btn-bg);
+	color: var(--viz-text-color);
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 1;
+	box-shadow: var(--viz-btn-shadow);
+	transition:
+		transform 0.1s ease,
+		background 0.2s ease;
+}
+
+.viz-btn:hover {
+	background: rgba(50, 50, 50, 0.95);
+}
+
+.viz-btn:active {
+	transform: translateY(1px);
+}
+
+/* 左側：ショートカットキーのヒント */
+.viz-btn-key {
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: var(--viz-btn-key-color);
+	opacity: 0.9;
+}
+
+/* 右側：ラベル */
+.viz-btn-label {
+	flex-grow: 1;
+	text-align: right;
+}
+
+/* =========================
+   表示切替ロジック
+========================= */
+
+/* 教材リンク（materials）非表示 */
+body.viz-hide-materials .materials {
+	display: none !important;
+}
+
+/* コンパクト表示（必要に応じて使用） */
+body.viz-compact .item-block {
+	max-height: 22px;
+	overflow: hidden;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+body.viz-compact .item-title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+body.viz-compact .materials,
+body.viz-compact .material-link-wrap {
+	max-height: 0;
+	overflow: hidden;
+}
+/* 標準（未クリック）の状態：目立つ色にする */
+.status-link {
+	color: var(--viz-link-new-color) !important;
+	font-weight: bold;
+	position: relative;
+	top: 2px;
+}
+
+/* クリック済みの状態：今の落ち着いた色にする */
+.status-link.is-visited {
+	color: var(--viz-link-color) !important;
+}
+
+.viz-output-panel {
+	position: fixed;
+	right: 16px;
+	bottom: 212px;
+	z-index: 9998;
+	width: min(540px, calc(100vw - 32px));
+	max-height: 62vh;
+	overflow: auto;
+	padding: 14px;
+	border: 1px solid #444;
+	border-radius: 12px;
+	background: rgba(18, 18, 18, 0.96);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.viz-output-head {
+	margin-bottom: 12px;
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.viz-output-head-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.viz-output-title {
+	display: inline-flex;
+	align-items: center;
+	font-weight: 700;
+}
+
+.viz-output-title-emoji {
+	display: inline-block;
+}
+
+.viz-output-title-text {
+	display: inline;
+}
+
+.viz-output-collapse-btn {
+	padding: 4px 10px;
+	border-radius: 7px;
+	border: 1px solid #5d5d5d;
+	background: #242424;
+	color: #e6e6e6;
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+.viz-output-collapse-btn:hover {
+	background: #313131;
+}
+
+.viz-output-meta {
+	margin-top: 8px;
+	font-size: 12px;
+	line-height: 1.45;
+	color: #b8d6ff;
+}
+
+.viz-output-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.viz-output-import-btn {
+	padding: 6px 12px;
+	border-radius: 8px;
+	border: 1px solid #4e6f4f;
+	background: #1f3420;
+	color: #d6f4d8;
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+.viz-output-import-btn:hover:enabled {
+	background: #29492c;
+}
+
+.viz-output-import-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.viz-output-import-toast {
+	font-size: 11px;
+	color: #9ad0a3;
+	opacity: 0;
+	transform: translateY(2px);
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+.viz-output-import-toast.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.viz-output-import-toast.is-error {
+	color: #ffb3b3;
+}
+
+.viz-output-meta a {
+	color: #ffcc00;
+	text-decoration: none;
+}
+
+.viz-output-block-wrap + .viz-output-block-wrap {
+	margin-top: 14px;
+}
+
+.viz-output-label-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.viz-output-label {
+	margin: 0;
+	flex: 1 1 auto;
+	font-size: 12px;
+	letter-spacing: 0.01em;
+	color: #d2d2d2;
+}
+
+.viz-output-copy-btn {
+	flex: 0 0 auto;
+	padding: 4px 10px;
+	border-radius: 7px;
+	border: 1px solid #4b5e78;
+	background: #1a2432;
+	color: #c8dcff;
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+.viz-output-copy-btn:hover {
+	background: #233144;
+}
+
+.viz-output-copy-toast {
+	flex: 0 0 auto;
+	font-size: 11px;
+	color: #9ad0a3;
+	opacity: 0;
+	transform: translateY(2px);
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+.viz-output-copy-toast.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.viz-output-textarea {
+	width: 100%;
+	min-height: 72px;
+	max-height: 420px;
+	resize: vertical;
+	padding: 13px 14px;
+	box-sizing: border-box;
+	background: #0d0d0d;
+	border: 1px solid #333;
+	border-radius: 10px;
+	color: #ececec;
+	font-size: 12px;
+	line-height: 1.65;
+	white-space: pre;
+	overflow: auto;
+}
+
+.viz-output-textarea:focus {
+	outline: 1px solid #3e5d84;
+	border-color: #3e5d84;
+}
+
+.viz-output-panel.is-collapsed {
+	width: fit-content;
+	max-width: calc(100vw - 32px);
+	max-height: none;
+	padding: 8px 10px;
+}
+
+.viz-output-panel.is-collapsed .viz-output-head {
+	margin-bottom: 0;
+}
+
+.viz-output-panel.is-collapsed .viz-output-head-row {
+	justify-content: flex-start;
+	gap: 0;
+}
+
+.viz-output-panel.is-collapsed .viz-output-title-text {
+	display: none;
+}
+
+.viz-output-panel.is-collapsed .viz-output-collapse-btn {
+	margin-left: 0;
+}
+
+.viz-output-panel.is-collapsed .viz-output-meta,
+.viz-output-panel.is-collapsed .viz-output-actions,
+.viz-output-panel.is-collapsed .viz-output-body {
+	display: none;
+}
+
+@media (max-width: 900px) {
+	.viz-output-panel {
+		right: 12px;
+		left: 12px;
+		bottom: 182px;
+		width: auto;
+	}
+
+	.viz-output-label-row {
+		flex-wrap: wrap;
+	}
+
+	.viz-output-actions {
+		flex-wrap: wrap;
+	}
+
+	.viz-output-copy-toast {
+		width: 100%;
+	}
+
+	.viz-output-import-toast {
+		width: 100%;
+	}
+
+	.viz-output-panel.is-collapsed {
+		left: auto;
+		right: 12px;
+		width: fit-content;
+		max-width: calc(100vw - 24px);
+	}
+}

@@ -1,0 +1,26 @@
+/* ============================================================
+   VISUALIZER 共通：スクロール・sticky（変数参照版）
+   ============================================================ */
+
+#table-container {
+	overflow: auto;
+	border: 1px solid var(--viz-border-color);
+	/* max-height はレイアウトに応じて 80vh 〜 96vh などで調整 */
+	max-height: 80vh;
+}
+
+/* 左の時間列 sticky */
+.time-col {
+	position: sticky;
+	left: 0;
+	z-index: 3;
+	background-color: var(--viz-time-col-bg);
+}
+
+/* ヘッダー sticky */
+thead th {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background-color: var(--viz-th-bg);
+}

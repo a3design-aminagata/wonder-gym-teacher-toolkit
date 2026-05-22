@@ -1,0 +1,16 @@
+{
+	"name": "notion-lms-agent",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"orphan-override:from-input": "node apps/schedule-visualizer/orphan-override-maker/main.js",
+		"orphan-override:dry-run": "node apps/schedule-visualizer/orphan-override-maker/main.js --dry-run --skip-notion-scrape",
+		"substitute:build": "node apps/schedule-visualizer/build_substitute_data.js",
+		"substitute:build-and-scrape": "node apps/schedule-visualizer/build_substitute_data.js --scrape-notion"
+	},
+	"dependencies": {
+		"dotenv": "^17.2.3",
+		"playwright": "^1.57.0",
+		"puppeteer": "^24.26.1"
+	}
+}

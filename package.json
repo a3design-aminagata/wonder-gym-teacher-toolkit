@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "open:wg-slack": "bash scripts/open-wg-slack.sh",
+    "safety:check": "bash scripts/safety-check.sh"
+  },
+  "devDependencies": {
+    "madge": "^8.0.0"
+  }
+}

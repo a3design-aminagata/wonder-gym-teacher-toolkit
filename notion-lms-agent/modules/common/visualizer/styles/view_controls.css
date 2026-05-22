@@ -1,0 +1,93 @@
+/* ============================================================
+   右下固定コントロール（ダークモード標準・プロ仕様）
+   ============================================================ */
+
+:root {
+	/* ボタン専用の変数定義 */
+	--viz-btn-bg: rgba(30, 30, 30, 0.9);
+	--viz-btn-border: #444;
+	--viz-btn-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+	--viz-btn-key-color: #8ab4ff; /* ショートカットキー文字の色 */
+}
+
+.viz-controls {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	z-index: 9999;
+	display: grid;
+	gap: 3px;
+	justify-items: end;
+}
+
+.viz-btn {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 160px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	border: 1px solid var(--viz-btn-border);
+	background: var(--viz-btn-bg);
+	color: var(--viz-text-color);
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 1;
+	box-shadow: var(--viz-btn-shadow);
+	transition:
+		transform 0.1s ease,
+		background 0.2s ease;
+}
+
+.viz-btn:hover {
+	background: rgba(50, 50, 50, 0.95);
+}
+
+.viz-btn:active {
+	transform: translateY(1px);
+}
+
+/* 左側：ショートカットキーのヒント */
+.viz-btn-key {
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: var(--viz-btn-key-color);
+	opacity: 0.9;
+}
+
+/* 右側：ラベル */
+.viz-btn-label {
+	flex-grow: 1;
+	text-align: left;
+}
+
+/* =========================
+   表示切替ロジック
+========================= */
+
+/* 教材リンク（materials）非表示 */
+body.viz-hide-materials .materials {
+	display: none !important;
+}
+
+/* コンパクト表示（必要に応じて使用） */
+body.viz-compact .item-block {
+	max-height: 22px;
+	overflow: hidden;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+body.viz-compact .item-title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+body.viz-compact .materials,
+body.viz-compact .material-link-wrap {
+	max-height: 0;
+	overflow: hidden;
+}

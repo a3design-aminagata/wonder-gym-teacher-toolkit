@@ -1,0 +1,300 @@
+/* modules/common/visualizer/item_block.css */
+
+thead {
+	position: relative;
+	z-index: 3;
+}
+
+/* mine / past の基本（枠あり） */
+.item-block {
+	border-width: 1px;
+	border-style: solid;
+	position: relative;
+	overflow: visible;
+}
+
+/* 色パレット（label 単位で割当） */
+.color-0 {
+	background: #daf8d730;
+	border-color: #6ac96f;
+}
+.color-1 {
+	background: #b1ffe830;
+	border-color: #6bbfa8;
+}
+.color-2 {
+	background: #fff3b830;
+	border-color: #e6c200;
+}
+.color-3 {
+	background: #ffd1e730;
+	border-color: #da71b0;
+}
+.color-4 {
+	background: #dfff7630;
+	border-color: #abc860;
+}
+.color-5 {
+	background: #bb74ff30;
+	border-color: #b589d6;
+}
+
+/* 今日より前を薄く */
+.before-today {
+	opacity: 0.55;
+}
+
+.item-block {
+	cursor: default;
+}
+
+/* リボン（資料ありマーク） */
+.material-ribbon {
+	position: absolute;
+	top: -9px;
+	left: -8px;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	color: #5fa8ff;
+	z-index: 6;
+}
+
+.material-ribbon::after {
+	content: "";
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: rgb(255 255 255 / 30%);
+	color: rgba(255, 255, 255, 0.9);
+	transform: rotate(45deg);
+	clip-path: polygon(100% 0, 100% 0, 100% 100%, 50% 50%);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.material-ribbon:hover::after,
+.material-ribbon:focus-visible::after {
+	opacity: 1;
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.material-ribbon:hover,
+.material-ribbon:focus-visible {
+	z-index: 11;
+}
+
+.item-title {
+	margin-bottom: 2px;
+	display: flex;
+	align-self: center;
+	justify-content: center;
+	gap: 3px;
+}
+
+/* LMSリンク（タイトル） */
+.item-title-link {
+	color: inherit;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.item-title-link:hover {
+	opacity: 0.8;
+}
+
+/* 教材リンク */
+.materials {
+	margin-top: 2px;
+	padding-left: 6px;
+}
+
+.material-link-wrap {
+	margin-bottom: 2px;
+}
+
+.material-link {
+	font-size: 11px;
+	text-decoration: underline;
+	color: #a0cbff;
+}
+
+.material-link:hover {
+	opacity: 0.8;
+}
+
+.notion-link {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 6px;
+}
+.notion-icon {
+	width: 14px;
+	height: 14px;
+	opacity: 0.9;
+}
+.notion-link:hover .notion-icon {
+	opacity: 1;
+}
+
+/* 競合セル背景（必要なら両方で使える） */
+.conflict-cell {
+	background-color: #ffe7f0 !important;
+}
+
+/* 種別（必要なら） */
+.available {
+	background: #fff2ad30;
+	border: 1px solid #f0b754;
+}
+
+/* 通常 */
+.normal {
+	color: #000;
+}
+/* --- badge (teacherStatus) --- */
+
+.badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 9999px;
+	font-size: 11px;
+	line-height: 1.2;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.badge-missing {
+	background: #ef4444;
+	color: #fff;
+}
+
+.badge-manual-pending {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 4px;
+	border-radius: 9999px;
+	font-size: 10px;
+	line-height: 1;
+	font-weight: 700;
+	color: #fff;
+	background: #f59e0b;
+	cursor: pointer;
+}
+tr[data-type="orphan"] {
+	background: rgba(255, 200, 200, 0.35);
+}
+/* 共通：マークの描画（has-warning は実ボタンに任せる） */
+/* 状態ごとに変数をセットするだけ */
+.cell.has-attendance-comment {
+	--mark-content: "○";
+	--mark-color: #d33;
+}
+
+.cell.has-absent {
+	--mark-content: "●";
+	--mark-color: #1e90ff;
+}
+
+.cell.has-warning {
+	--mark-content: "⚠️";
+	--mark-color: orange;
+}
+
+.cell.has-mark-btn::after {
+	display: none;
+}
+
+.status-mark-btn {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	background: transparent;
+	border: none;
+	font-size: 12px;
+	line-height: 1;
+	cursor: pointer;
+	color: var(--mark-color, #1e90ff);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	z-index: 2;
+}
+
+.status-mark-btn::before {
+	content: var(--mark-content);
+}
+
+.status-mark-btn::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 120%;
+	right: 0;
+	transform: translateY(2px);
+	background: rgba(30, 30, 30, 0.95);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 6px;
+	white-space: nowrap;
+	font-size: 11px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.12s ease,
+		transform 0.12s ease;
+	z-index: 15;
+}
+
+.status-mark-btn:hover::after,
+.status-mark-btn:focus-visible::after {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.status-mark-btn:focus-visible {
+	outline: 2px solid rgba(0, 123, 255, 0.6);
+	outline-offset: 2px;
+	border-radius: 3px;
+}
+
+.flash-no-target {
+	animation: viz-blink-twice 0.6s ease-in-out 1;
+}
+
+@keyframes viz-blink-twice {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+	}
+	25%,
+	50% {
+		box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.8);
+	}
+	75% {
+		box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.4);
+	}
+}
+
+.warning-marker {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	background: transparent;
+	border: none;
+	color: var(--mark-color, orange);
+	font-size: 12px;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1;
+	z-index: 2;
+}
+.warning-marker:focus-visible {
+	outline: 2px solid #ffa726;
+	outline-offset: 2px;
+}

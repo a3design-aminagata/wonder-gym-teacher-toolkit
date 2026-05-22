@@ -1,0 +1,276 @@
+/* ============================================================
+   VISUALIZER 共通：レイアウト設計
+   ============================================================ */
+
+h1 {
+	font-size: 20px;
+	margin-bottom: 8px;
+}
+
+p {
+	margin-bottom: 16px;
+}
+
+.table-wrapper {
+	position: relative;
+}
+
+/* ★ 今見ている月を表示するフローティングラベル */
+#month-floating-label {
+	position: absolute;
+	top: 5px;
+	left: 55px;
+	background-color: var(--viz-floating-label-bg);
+	padding: 2px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	pointer-events: auto;
+	z-index: 100;
+	border: 1px solid var(--viz-border-color);
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.month-label-text {
+	pointer-events: none;
+}
+
+.month-label-link {
+	pointer-events: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--viz-text-color);
+	text-decoration: none;
+	font-size: 16px;
+	line-height: 1;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		transform 0.12s ease;
+}
+
+.month-label-link * {
+	pointer-events: none;
+}
+
+.month-label-link:hover,
+.month-label-link:focus-visible {
+	background-color: rgba(255, 255, 255, 0.1);
+	border-color: var(--viz-link-color);
+	transform: translateY(-1px);
+	outline: none;
+}
+
+.month-label-week-run {
+	pointer-events: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: var(--viz-text-color);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+	padding: 1px 3px;
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		transform 0.12s ease;
+}
+
+.month-label-week-run * {
+	pointer-events: none;
+}
+
+.month-label-week-run:hover,
+.month-label-week-run:focus-visible {
+	background-color: rgba(255, 255, 255, 0.1);
+	border-color: var(--viz-link-color);
+	transform: translateY(-1px);
+	outline: none;
+}
+
+.month-label-week-run[data-tooltip]::after,
+.month-label-paste[data-tooltip]::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	top: 120%;
+	left: 50%;
+	transform: translateX(-50%);
+	display: inline-block;
+	background: rgba(30, 30, 30, 0.95);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 6px;
+	width: max-content;
+	min-width: max-content;
+	white-space: pre;
+	text-align: left;
+	font-size: 11px;
+	line-height: 1.4;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	pointer-events: none;
+	transition: none;
+	z-index: 120;
+}
+
+.month-label-week-run[data-tooltip]::before,
+.month-label-paste[data-tooltip]::before {
+	content: "";
+	position: absolute;
+	top: 110%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 6px solid transparent;
+	border-bottom-color: rgba(30, 30, 30, 0.95);
+	opacity: 0;
+	pointer-events: none;
+	transition: none;
+	z-index: 120;
+}
+
+.month-label-week-run[data-tooltip]:hover::after,
+.month-label-week-run[data-tooltip]:focus-visible::after,
+.month-label-week-run[data-tooltip]:hover::before,
+.month-label-week-run[data-tooltip]:focus-visible::before,
+.month-label-paste[data-tooltip]:hover::after,
+.month-label-paste[data-tooltip]:focus-visible::after,
+.month-label-paste[data-tooltip]:hover::before,
+.month-label-paste[data-tooltip]:focus-visible::before {
+	opacity: 1;
+}
+
+.month-label-icon {
+	width: 14px;
+	height: 14px;
+}
+
+#table-container {
+	position: relative;
+	overflow: auto;
+	border: 1px solid var(--viz-border-color);
+	max-height: 96vh;
+}
+
+table {
+	min-width: 900px;
+}
+
+th {
+	background-color: var(--viz-th-bg);
+}
+
+/* ========= スクロール固定（ヘッダー＆時間列） ========= */
+
+/* 左端の時間列 */
+.time-col {
+	background-color: var(--viz-time-col-bg);
+	position: sticky;
+	left: 0;
+	z-index: 3;
+}
+
+/* ヘッダー共通 */
+thead th {
+	position: sticky;
+	z-index: 2;
+}
+
+/* 1行目：月ヘッダー */
+thead tr:first-child th {
+	top: 0;
+	text-align: left;
+}
+
+/* 2行目：日付ヘッダー */
+thead tr:nth-child(2) th {
+	top: 30px; /* 行高さで微調整 */
+}
+
+/* ヘッダーの境界線（sticky時の隙間埋め） */
+thead tr:nth-child(2) th::before,
+thead tr:nth-child(2) th::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background-color: var(--viz-border-color);
+	z-index: 5;
+}
+thead tr:nth-child(2) th::before {
+	top: -1px;
+}
+thead tr:nth-child(2) th::after {
+	bottom: -1px;
+}
+
+thead th.time-col {
+	top: 0;
+	z-index: 100;
+}
+
+/* time-col 右の区切り線 */
+.time-col::after {
+	content: "";
+	position: absolute;
+	right: -1px;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: var(--viz-border-color);
+	z-index: 5;
+}
+
+.month-header {
+	background-color: var(--viz-th-bg);
+	font-weight: 600;
+	font-size: 12px;
+	border-bottom: 1px solid var(--viz-border-color);
+}
+
+.date-header {
+	background-color: var(--viz-td-bg);
+}
+
+.date-header .day {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	cursor: pointer;
+}
+.date-header .day:hover {
+	text-decoration: underline;
+	opacity: 0.8;
+}
+
+/* ========= セル内 ========= */
+
+.cell {
+	min-width: 120px;
+	padding: 4px;
+	position: relative;
+}
+
+/* ★ 予定なしセル */
+.empty-cell {
+	width: 20px;
+	min-width: 20px;
+	background-color: var(--viz-bg-color);
+}
+
+.cell > div {
+	margin-bottom: 4px;
+	white-space: nowrap;
+	font-weight: 600;
+	border-radius: 3px;
+	padding: 2px 4px;
+}

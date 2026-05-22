@@ -1,0 +1,66 @@
+<!-- /path/to/wonder-gym-teacher-toolkit/notion-lms-agent/apps/schedule-visualizer/index.html -->
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<title>スケジュール可視化（schedules.json）</title>
+
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗓️</text></svg>"
+		/>
+
+		<link
+			rel="stylesheet"
+			href="../../modules/common/visualizer/styles/table_base.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="../../modules/common/visualizer/styles/table_layout.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="../../modules/common/visualizer/styles/table_scroll.css"
+		/>
+
+		<link
+			rel="stylesheet"
+			href="../../modules/common/visualizer/styles/visualizer_ui.css"
+		/>
+
+		<!-- 同じフォルダ内の CSS -->
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div class="table-wrapper">
+			<!-- ★ 固定表示される月ラベル（スクロールに流されなくなる） -->
+			<div id="month-floating-label"></div>
+
+			<!-- ★ 横スクロールする領域 -->
+			<div id="table-container">
+				<table id="scheduleTable"></table>
+			</div>
+		</div>
+
+		<!-- 右下固定の操作ボタン群 -->
+		<div id="viz-controls" class="viz-controls">
+			<button id="go-command-center" class="viz-btn" type="button"></button>
+
+			<button id="go-today" class="viz-btn" type="button"></button>
+			<button id="toggle-materials" class="viz-btn" type="button"></button>
+		</div>
+
+		<script src="../../modules/common/visualizer/ui_toggles.js"></script>
+
+			<!-- VISUALIZER_DATA を定義する JS（あとで自動生成してもOK） -->
+			<script src="./data/data.js"></script>
+			<script src="./data/orphan_data.js"></script>
+
+		<!-- 表の描画ロジック -->
+		<script
+			type="module"
+			src="../../modules/common/visualizer/schedule_table.js"
+		></script>
+		<script src="../../modules/common/visualizer/interactions/date_copy.js"></script>
+	</body>
+</html>

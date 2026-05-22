@@ -1,0 +1,404 @@
+/* ============================================================
+   VISUALIZER 共通：基本レイアウト（ダークモード標準）
+   ============================================================ */
+
+:root {
+	/* visualizer_ui.css のダークモード配色を標準に格上げ */
+	--viz-bg-color: #111111;
+	--viz-text-color: #e5e5e5;
+	--viz-border-color: #333333;
+
+	/* テーブル構成要素 */
+	--viz-th-bg: #1a1a1a;
+	--viz-th-today-bg: #302a16;
+	--viz-td-bg: #121212;
+	--viz-time-col-bg: #1a1a1a;
+
+	/* 曜日・リンクカラー */
+	--viz-link-color: #a0cbff;
+	--viz-link-new-color: #ffcc00; /* 未クリックの色（目立つ黄色） */
+	--viz-sat-color: #8ab4ff; /* .sat の色 */
+	--viz-sun-color: #ff8a8a; /* .sun の色 */
+	--viz-weekday-label: #888888;
+
+	/* 特殊要素 */
+	--viz-today-bg: rgba(255, 213, 79, 0.1);
+	--viz-today-cell-bg: rgba(255, 213, 79, 0.04);
+	--viz-now-cell-bg: rgba(255, 53, 53, 0.3);
+	--viz-now-start: 0%;
+	--viz-now-end: 6.6667%;
+	--viz-floating-label-bg: #1a1a1a;
+}
+
+body {
+	font-family:
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		sans-serif;
+	font-size: 14px;
+	background-color: var(--viz-bg-color);
+	color: var(--viz-text-color);
+	margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	background-color: var(--viz-bg-color);
+}
+
+th {
+	background-color: var(--viz-th-bg);
+	color: var(--viz-text-color);
+	border: 1px solid var(--viz-border-color);
+	padding: 6px 8px;
+	font-size: 12px;
+}
+
+td {
+	background-color: var(--viz-td-bg);
+	border: 1px solid var(--viz-border-color);
+	padding: 6px 8px;
+	text-align: center;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+/* リンクとボタンの標準色 */
+a,
+button {
+	color: var(--viz-link-color);
+}
+
+/* セル内共通 */
+.cell {
+	min-width: 120px;
+	padding: 4px;
+	position: relative;
+}
+
+.cell > div {
+	margin-bottom: 4px;
+	white-space: nowrap;
+	font-weight: 600;
+}
+
+/* 左側の時間列 */
+.time-col {
+	background-color: var(--viz-time-col-bg) !important;
+}
+
+/* 曜日カラー（th.sat や th.sun に適用される想定） */
+.weekday {
+	font-size: 11px;
+	color: var(--viz-weekday-label);
+}
+
+/* 週末の配色 */
+.sat,
+th.sat .weekday {
+	color: var(--viz-sat-color) !important;
+}
+.sun,
+th.sun .weekday {
+	color: var(--viz-sun-color) !important;
+}
+
+/* 今日のハイライト */
+.cell.is-today {
+	background: var(--viz-today-cell-bg);
+}
+.cell.is-current-hour {
+	position: relative;
+}
+.cell.is-current-hour::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to bottom,
+		transparent 0%,
+		transparent var(--viz-now-start, 0%),
+		var(--viz-now-cell-bg) var(--viz-now-start, 0%),
+		var(--viz-now-cell-bg) var(--viz-now-end, 6.6667%),
+		transparent var(--viz-now-end, 6.6667%),
+		transparent 100%
+	);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.cell > div {
+	position: relative;
+	z-index: 1;
+}
+.date-header.is-today {
+	background: var(--viz-th-today-bg);
+}
+
+.cell.jump-highlight {
+	box-shadow:
+		0 0 0 2px #4fc3f7,
+		0 0 14px rgba(79, 195, 247, 0.55);
+	animation: viz-jump-pulse 1s ease-out 0s 2;
+	background: var(--viz-today-cell-bg) !important;
+}
+
+.cell.jump-highlight > div {
+	opacity: 1;
+	transition: opacity 0.15s ease;
+}
+
+@keyframes viz-jump-pulse {
+	0% {
+		box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.8);
+	}
+	60% {
+		box-shadow: 0 0 0 10px rgba(79, 195, 247, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.3);
+	}
+}
+
+/* フローティングラベル（月表示） */
+#month-floating-label {
+	background-color: var(--viz-floating-label-bg);
+}
+.month-label-paste {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	cursor: pointer;
+}
+.month-label-paste:hover,
+.month-label-paste:focus-visible {
+	background: rgba(255, 255, 255, 0.2);
+}
+.month-label-icon {
+	width: 16px;
+	height: 16px;
+	pointer-events: none;
+}
+
+/* バッジ関連 */
+.orphan-badge {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 4px;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	background: transparent;
+	padding: 0;
+	position: relative;
+}
+
+.orphan-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	font-size: 13px;
+	line-height: 1;
+	opacity: 0.8;
+}
+.orphan-badge .orphan-icon,
+.orphan-badge .orphan-icon * {
+	pointer-events: none; /* クリック判定はbuttonに集約 */
+}
+
+.material-notion-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.12s ease;
+	position: relative;
+	top: 3px;
+	padding: 1px;
+}
+.material-notion-btn:hover,
+.material-notion-btn:focus-visible {
+	background-color: rgba(255, 255, 255, 0.12);
+}
+.material-notion-icon {
+	width: 14px;
+	height: 14px;
+	opacity: 0.9;
+}
+
+.material-p5-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 1px;
+	color: var(--viz-link-color);
+	position: relative;
+	top: 2px;
+}
+.material-p5-btn:focus-visible {
+	outline: 2px solid #4fc3f7;
+	outline-offset: 2px;
+}
+.material-p5-icon {
+	width: 14px;
+	height: 14px;
+	opacity: 0.9;
+}
+
+/* 材料ポップオーバー */
+.viz-materials-popover {
+	position: absolute;
+	min-width: 320px;
+	max-width: 520px;
+	max-height: 420px;
+	overflow: auto;
+	background: rgba(18, 18, 18, 0.98);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+	border-radius: 10px;
+	padding: 10px 12px;
+	z-index: 999;
+	color: #e5e5e5;
+	backdrop-filter: blur(3px);
+}
+
+.viz-materials-header {
+	font-weight: 700;
+	margin-bottom: 8px;
+	font-size: 13px;
+}
+
+.viz-materials-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.viz-materials-slot {
+	padding: 8px;
+	border-radius: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	background: rgba(255, 255, 255, 0.02);
+}
+.viz-materials-slot.is-current {
+	border-color: #4fc3f7;
+	box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.35);
+}
+
+.viz-materials-meta {
+	font-size: 12px;
+	color: #9ca3af;
+	margin-bottom: 4px;
+}
+
+.viz-materials-popover .materials {
+	display: block;
+	padding-left: 0;
+	margin-top: 2px;
+}
+
+.orphan-badge::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 140%;
+	left: 50%;
+	transform: translateX(-50%) translateY(0);
+	background: rgba(30, 30, 30, 0.95);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 6px;
+	white-space: nowrap;
+	font-size: 11px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	transition:
+		opacity 0.05s ease,
+		transform 0.05s ease;
+}
+
+.orphan-badge::before {
+	content: "";
+	position: absolute;
+	bottom: 130%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 6px solid transparent;
+	border-top-color: rgba(30, 30, 30, 0.95);
+	opacity: 0;
+	transition: opacity 0.05s ease;
+}
+
+.orphan-badge:hover::after,
+.orphan-badge:focus-visible::after,
+.orphan-badge:hover::before,
+.orphan-badge:focus-visible::before {
+	opacity: 1;
+}
+
+/* マイルストーンバッジ */
+.badge-milestone {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+	line-height: 1;
+	vertical-align: middle;
+	pointer-events: auto;
+	position: relative;
+	z-index: 2;
+}
+.badge-milestone::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 120%;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(30, 30, 30, 0.95);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 6px;
+	white-space: nowrap;
+	font-size: 11px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.12s ease,
+		transform 0.12s ease;
+}
+.badge-milestone::before {
+	content: "";
+	position: absolute;
+	bottom: 110%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 6px solid transparent;
+	border-top-color: rgba(30, 30, 30, 0.95);
+	opacity: 0;
+	transition: opacity 0.12s ease;
+}
+.badge-milestone:hover::after,
+.badge-milestone:hover::before {
+	opacity: 1;
+}
+.badge-first {
+	color: #8ef0a5;
+}
+.badge-last {
+	color: #ffc879;
+}
